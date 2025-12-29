@@ -5,6 +5,7 @@ import { env } from "node:process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { errorHandler } from "./middlewares/error-handler.middleware";
+import { pageNotFoundHandler } from "./middlewares/page-not-found.middleware";
 
 try {
   const serviceAccountPath = join(process.cwd(), "firebase-adminsdk.json");
@@ -23,6 +24,7 @@ try {
 const app = express();
 
 routes(app);
+pageNotFoundHandler(app);
 errorHandler(app);
 
 app.listen(env.PORT, () => {
