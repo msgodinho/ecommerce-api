@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { getFirestore } from "firebase-admin/firestore";
-import { ValidationError } from "../errors/validation.error";
 import { NotFoundError } from "../errors/not-found-error";
 
 export class UsersController {
@@ -27,14 +26,6 @@ export class UsersController {
 
   static async save(req: Request, res: Response) {
     const user = req.body;
-    if (!user.email || user.email?.length === 0) {
-      throw new ValidationError("Field email is missing!");
-    }
-
-    if (!user.name || user.name?.length === 0) {
-      throw new ValidationError("Field name is missing!");
-    }
-
     const savedUser = await getFirestore().collection("users").add(user);
     res.send({ message: `Usuário ${savedUser.id} criado com sucesso!` });
   }
